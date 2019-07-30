@@ -72,10 +72,4 @@ public class Rook extends Piece {
 		}
 
 	}
-
-	@Override
-	public void makeMove(Board board, Spot curr, Spot dest) {
-		// TODO Auto-generated method stub
-		
-	}
 }

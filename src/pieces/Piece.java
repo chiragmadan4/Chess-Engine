@@ -10,5 +10,9 @@ public abstract class Piece {
 	public Boolean isAlive;
 	public String type;
 	public abstract boolean isValidMove(Board board, Spot destination);
-	public abstract void makeMove(Board board, Spot curr, Spot dest);
+	public void makeMove(Board board, Spot curr, Spot dest) {
+		this.spot = dest;
+		dest.setPiece(this);
+		curr.removePiece();
+	}
 }

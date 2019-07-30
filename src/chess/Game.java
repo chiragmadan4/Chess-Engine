@@ -32,8 +32,11 @@ public class Game {
 		board = new Board();
 		startGame(board);
 		printBoard(board);
-		inputMove();
-		printBoard(board);
+		while(true) {
+			inputMove();
+			printBoard(board);
+		}
+		
 	}
 
 	private static void startGame(Board board) {

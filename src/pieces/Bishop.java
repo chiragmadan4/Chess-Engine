@@ -27,6 +27,7 @@ public class Bishop extends Piece {
 
 		int x2 = dest.x;
 		int y2 = dest.y;
+		
 
 		if (Math.abs(x1 - x2) == Math.abs(y1 - y2)) {
 			return checkIfPathIsFree(board, dest);
@@ -78,11 +79,6 @@ public class Bishop extends Piece {
 			}
 		}
 		return true;
-
-	}
-
-	@Override
-	public void makeMove(Board board, Spot curr, Spot dest) {
 
 	}
 }

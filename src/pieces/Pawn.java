@@ -38,11 +38,4 @@ public class Pawn extends Piece {
 		return false;
 	}
 
-	@Override
-	public void makeMove(Board board, Spot curr, Spot dest) {
-		this.spot = dest;
-		dest.setPiece(this);
-		curr.removePiece();
-		
-	}
 }
