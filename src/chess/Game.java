@@ -9,22 +9,40 @@ public class Game {
 	static Board board;
 	static Player player1;
 	static Player player2;
+	static Color turn;
 
 	public static void main(String[] args) {
 		scan = new Scanner(System.in);
 		board = new Board();
 
-		startGame(board);
-		printBoard(board);
-
-		while (true) {
-			if (inputMove())
-				printBoard(board);
-		}
+		initializeGame(board);
+		printBoard();
+		startGame();
 
 	}
 
-	private static void startGame(Board board) {
+	private static void startGame() {
+		turn = Color.WHITE;
+		
+		while (true) {
+			System.out.println(turn+"'s turn");
+			
+			if (inputMove()) {
+				printBoard();
+				if (turn == Color.WHITE) {
+					turn = Color.BLACK;
+				} else {
+					turn = Color.WHITE;
+				}
+
+			} else {
+				System.out.println("invalid move, try again");
+			}
+
+		}
+	}
+
+	private static void initializeGame(Board board) {
 		player1 = new Player(Color.WHITE);
 		player2 = new Player(Color.BLACK);
 
@@ -43,20 +61,26 @@ public class Game {
 		Spot curr = board.getSpot(x1, y1);
 		Spot dest = board.getSpot(x2, y2);
 
-		Piece currPiece = board.getSpot(x1, y1).getPiece();
-
-		if (curr.hasPiece() && currPiece.isValidMove(board, dest)) {
-			System.out.println();
-			currPiece.makeMove(board, curr, dest);
-			return true;
-		} else {
-			System.out.println("invalid move, try again");
+		if (!curr.hasPiece()) {
+			return false;
+		}
+		if (curr.getPiece().color != turn) {
 			return false;
 		}
 
+		Piece currPiece = board.getSpot(x1, y1).getPiece();
+
+		if (currPiece.isValidMove(board, dest)) {
+			System.out.println();
+			currPiece.makeMove(board, curr, dest);
+			return true;
+		}
+
+		return false;
+
 	}
 
-	private static void printBoard(Board board) {
+	private static void printBoard() {
 
 		char c = 'A';
 		int k = 8;

@@ -27,7 +27,6 @@ public class Bishop extends Piece {
 
 		int x2 = dest.x;
 		int y2 = dest.y;
-		
 
 		if (Math.abs(x1 - x2) == Math.abs(y1 - y2)) {
 			return checkIfPathIsFree(board, dest);
@@ -43,9 +42,12 @@ public class Bishop extends Piece {
 
 		int x2 = dest.x;
 		int y2 = dest.y;
-
+		
 		if (x1 < x2 && y1 < y2) {
 			for (int i = x1, j = y1; i < x2 && j < y2; i++, j++) {
+				if (i == x1 && j == y1) {
+					continue;
+				}
 				Spot s = board.getSpot(i, j);
 				if (s.hasPiece()) {
 					return false;
@@ -53,6 +55,9 @@ public class Bishop extends Piece {
 			}
 		} else if (x1 > x2 && y1 > y2) {
 			for (int i = x2, j = y2; i > x1 && j > y1; i--, j--) {
+				if (i == x1 && j == y1) {
+					continue;
+				}
 				Spot s = board.getSpot(i, j);
 				if (s.hasPiece()) {
 					return false;
@@ -60,6 +65,9 @@ public class Bishop extends Piece {
 			}
 		} else if (x1 < x2 && y1 > y2) {
 			for (int i = x1, j = y2; i < x2 && j > y1; i++, j--) {
+				if (i == x1 && j == y1) {
+					continue;
+				}
 				Spot s = board.getSpot(i, j);
 				if (s.hasPiece()) {
 					return false;
@@ -67,6 +75,9 @@ public class Bishop extends Piece {
 			}
 		} else { // (x1 > x2 && y1 < y2)
 			for (int i = x2, j = y1; i > x1 && j < y2; i--, j++) {
+				if (i == x1 && j == y1) {
+					continue;
+				}
 				Spot s = board.getSpot(i, j);
 				if (s.hasPiece()) {
 					return false;
@@ -75,6 +86,7 @@ public class Bishop extends Piece {
 		}
 		if (dest.hasPiece()) {
 			if (dest.getPiece().color == this.color) {
+				
 				return false;
 			}
 		}
@@ -82,3 +94,4 @@ public class Bishop extends Piece {
 
 	}
 }
+
