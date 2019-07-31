@@ -16,7 +16,7 @@ public class Game {
 		scan = new Scanner(System.in);
 		board = new Board();
 
-		initializeGame(board);
+		initializeGame();
 		printBoard();
 		startGame();
 
@@ -26,8 +26,9 @@ public class Game {
 		turn = Color.WHITE;
 
 		while (true) {
-			System.out.println(turn + "'s turn");
-
+			System.out.println("   "+turn + "'s turn");
+			System.out.println("White pieces left:" + player1.playersPieces.size());
+			System.out.println("Black pieces left:" + player2.playersPieces.size());
 			if (inputMove()) {
 				printBoard();
 				if (turn == Color.WHITE) {
@@ -35,9 +36,19 @@ public class Game {
 				} else {
 					turn = Color.WHITE;
 				}
-				Boolean isUnderCheck = checkForCheck();
-				if (isUnderCheck)
-					System.out.println("CHECK!");
+
+				if (checkForCheck()) {
+					if (checkForCheckMate()) {
+						System.out.println("CHECKMATE!");
+						if (turn == Color.WHITE)
+							System.out.println("Black Wins!");
+						else
+							System.out.println("White wins!");
+						return;
+					} else {
+						System.out.println("CHECK!");
+					}
+				}
 
 			} else {
 				System.out.println("invalid move, try again");
@@ -46,25 +57,7 @@ public class Game {
 		}
 	}
 
-	private static boolean checkForCheck() {
-		if (turn == Color.WHITE) { // if any of black pieces(player2) can reach white king
-			return checkForCheck(player2.playersPieces, player1.kingSpot);
-		} else { // if any of white pieces can reach black king
-			return checkForCheck(player1.playersPieces, player2.kingSpot);
-		}
-
-	}
-
-	private static boolean checkForCheck(ArrayList<Piece> attackers, Spot kingSpot) {
-		for (Piece p : attackers) {
-			if (p.isValidMove(board, kingSpot)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static void initializeGame(Board board) {
+	private static void initializeGame() {
 		player1 = new Player(Color.WHITE, board.getSpot(7, 4));
 		player2 = new Player(Color.BLACK, board.getSpot(0, 4));
 
@@ -74,13 +67,22 @@ public class Game {
 	}
 
 	public static boolean inputMove() {
-
-		int x1 = scan.nextInt();
-		int y1 = scan.nextInt();
-
-		int x2 = scan.nextInt();
-		int y2 = scan.nextInt();
-
+		String src = scan.next();
+		String desti = scan.next();
+		
+		char cx1 = src.charAt(0);
+		char cy1 = src.charAt(1);
+		
+		char cx2 = desti.charAt(0);
+		char cy2 = desti.charAt(1);
+		
+		// converting position to co-ordinates
+		int x1 = 8 - (cy1 -'0');
+		int y1 = cx1-'A';
+		
+		int x2 = 8 - (cy2 - '0');
+		int y2 = cx2 - 'A';
+		
 		Spot curr = board.getSpot(x1, y1);
 		Spot dest = board.getSpot(x2, y2);
 
@@ -90,12 +92,18 @@ public class Game {
 		if (curr.getPiece().color != turn) {
 			return false;
 		}
-
+		
 		Piece currPiece = board.getSpot(x1, y1).getPiece();
-
+		
 		if (currPiece.isValidMove(board, dest)) {
 			System.out.println();
-
+			if (dest.hasPiece()) {
+				if (turn == Color.WHITE) {
+					player2.playersPieces.remove(dest.getPiece());
+				} else {
+					player1.playersPieces.remove(dest.getPiece());
+				}
+			}
 			currPiece.makeMove(board, curr, dest);
 
 			if (currPiece.type.equals("K") || currPiece.type.equals("k")) {
@@ -143,6 +151,54 @@ public class Game {
 			System.out.print(c++ + " ");
 		}
 		System.out.println();
+	}
+
+	private static boolean checkForCheck() {
+		if (turn == Color.WHITE) { // if any of black pieces(player2) can reach white king
+			return checkForCheck(player2.playersPieces, player1.kingSpot);
+		} else { // if any of white pieces can reach black king
+			return checkForCheck(player1.playersPieces, player2.kingSpot);
+		}
+
+	}
+
+	private static boolean checkForCheckMate() {
+		if (turn == Color.WHITE) { // if any of black pieces(player2) can reach white king
+			return checkForCheckMate(player2.playersPieces, player1.kingSpot);
+		} else { // if any of white pieces can reach black king
+			return checkForCheckMate(player1.playersPieces, player2.kingSpot);
+		}
+
+	}
+
+	private static boolean checkForCheckMate(ArrayList<Piece> attackers, Spot kingSpot) {
+		// to do other checks to prevent check mate
+		int x = kingSpot.x;
+		int y = kingSpot.y;
+
+		for (int i = x - 1; i <= x + 1; i++) {
+			for (int j = y - 1; j <= y + 1; j++) {
+				if (i < 0 || i > 7 || j < 0 || j > 7) {
+					continue;
+				}
+				Spot s = board.getSpot(i, j);
+				if (!s.hasPiece()) {
+					if (!checkForCheck(attackers, s)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private static boolean checkForCheck(ArrayList<Piece> attackers, Spot kingSpot) {
+		for (Piece p : attackers) {
+			if (p.isValidMove(board, kingSpot)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static void initializeBlackPieces(Board board, ArrayList<Piece> playersPieces) {
@@ -242,3 +298,4 @@ public class Game {
 	}
 
 }
+// 6 3 5 3 1 2 2 2 5 3 4 3 0 3 3 0

@@ -6,7 +6,7 @@ public class Spot {
 	public int x;
 	public int y;
 	Color color;
-	Boolean isEmpty;
+	boolean isEmpty;
 	Piece piece;
 
 	public Spot(Color color, int row, int col) {
@@ -14,7 +14,7 @@ public class Spot {
 		this.y = col;
 		this.color = color;
 		this.isEmpty = true;
-		piece = null;
+		this.piece = null;
 	}
 
 	public void setPiece(Piece p) {

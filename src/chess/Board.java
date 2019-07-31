@@ -23,7 +23,10 @@ public class Board {
 	
 	public Spot getSpot(int x, int y) {
 		return spots[x][y];
+		
 	}
+	
+	
 	
 	
 }
