@@ -43,10 +43,19 @@ public class Rook extends Piece {
 		int y2 = dest.y;
 
 		if (x1 == x2) {
-			for (int i = y1; i < y2; i++) {
-				Spot s = board.getSpot(x1, i);
-				if (s.hasPiece()) {
-					return false;
+			if (y1 < y2) {
+				for (int i = y1 + 1; i < y2; i++) {
+					Spot s = board.getSpot(x1, i);
+					if (s.hasPiece()) {
+						return false;
+					}
+				}
+			} else {
+				for (int i = y1 - 1; i > y2; i--) {
+					Spot s = board.getSpot(x1, i);
+					if (s.hasPiece()) {
+						return false;
+					}
 				}
 			}
 
@@ -54,15 +63,26 @@ public class Rook extends Piece {
 			if (s.hasPiece() && s.getPiece().color == curr.getPiece().color) {
 				return false;
 			}
-
+			System.out.println("check2");
 			return true;
 		} else {
-			for (int i = x1; i < x2; i++) {
-				Spot s = board.getSpot(i, y1);
-				if (s.hasPiece()) {
-					return false;
+
+			if (x1 < x2) {
+				for (int i = x1 + 1; i < x2; i++) {
+					Spot s = board.getSpot(i, y1);
+					if (s.hasPiece()) {
+						return false;
+					}
+				}
+			} else {
+				for (int i = x1 - 1; i > x2; i--) {
+					Spot s = board.getSpot(i, y1);
+					if (s.hasPiece()) {
+						return false;
+					}
 				}
 			}
+
 			Spot s = board.getSpot(x2, y2);
 			if (s.hasPiece() && s.getPiece().color == curr.getPiece().color) {
 				return false;

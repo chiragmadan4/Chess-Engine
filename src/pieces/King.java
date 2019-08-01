@@ -43,10 +43,4 @@ public class King extends Piece {
 		return true;
 	}
 
-	@Override
-	public void makeMove(Board board, Spot curr, Spot dest) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

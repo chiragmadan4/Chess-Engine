@@ -33,11 +33,11 @@ public class Pawn extends Piece {
 		int y2 = dest.y;
 
 		if (this.color == Color.WHITE) {
-			if (x2 != x1 - 1 || (Math.abs(y1 - y2) > 1 || y1==y2)) {
+			if (x2 != x1 - 1 || (Math.abs(y1 - y2) > 1 || y1 == y2)) {
 				return false;
 			}
 		} else {
-			if (x2 != x1 + 1 || (Math.abs(y1 - y2) > 1 || y1==y2)) {
+			if (x2 != x1 + 1 || (Math.abs(y1 - y2) > 1 || y1 == y2)) {
 				return false;
 			}
 		}
@@ -58,8 +58,14 @@ public class Pawn extends Piece {
 			if (x2 != x1 - 2 || y1 != y2) {
 				return false;
 			}
+			if (board.getSpot(x1 - 1, y1).hasPiece() == true) {
+				return false;
+			}
 		} else {
 			if (x2 != x1 + 2 || y1 != y2) {
+				return false;
+			}
+			if (board.getSpot(x1 + 1, y1).hasPiece() == true) {
 				return false;
 			}
 		}
@@ -95,4 +101,3 @@ public class Pawn extends Piece {
 	}
 
 }
-// 6 3 4 3 1 3 2 3 4 3 3 3

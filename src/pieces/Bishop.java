@@ -42,7 +42,7 @@ public class Bishop extends Piece {
 
 		int x2 = dest.x;
 		int y2 = dest.y;
-		
+
 		if (x1 < x2 && y1 < y2) {
 			for (int i = x1, j = y1; i < x2 && j < y2; i++, j++) {
 				if (i == x1 && j == y1) {
@@ -54,7 +54,7 @@ public class Bishop extends Piece {
 				}
 			}
 		} else if (x1 > x2 && y1 > y2) {
-			for (int i = x2, j = y2; i > x1 && j > y1; i--, j--) {
+			for (int i = x1, j = y1; i > x2 && j > y2; i--, j--) {
 				if (i == x1 && j == y1) {
 					continue;
 				}
@@ -64,7 +64,7 @@ public class Bishop extends Piece {
 				}
 			}
 		} else if (x1 < x2 && y1 > y2) {
-			for (int i = x1, j = y2; i < x2 && j > y1; i++, j--) {
+			for (int i = x1, j = y1; i < x2 && j < y2; i++, j--) {
 				if (i == x1 && j == y1) {
 					continue;
 				}
@@ -74,7 +74,7 @@ public class Bishop extends Piece {
 				}
 			}
 		} else { // (x1 > x2 && y1 < y2)
-			for (int i = x2, j = y1; i > x1 && j < y2; i--, j++) {
+			for (int i = x1, j = y1; i > x2 && j < y2; i--, j++) {
 				if (i == x1 && j == y1) {
 					continue;
 				}
@@ -86,7 +86,7 @@ public class Bishop extends Piece {
 		}
 		if (dest.hasPiece()) {
 			if (dest.getPiece().color == this.color) {
-				
+
 				return false;
 			}
 		}
@@ -94,4 +94,3 @@ public class Bishop extends Piece {
 
 	}
 }
-
